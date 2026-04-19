@@ -27,11 +27,13 @@ services:
       AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
       AIRFLOW__API__AUTH_BACKENDS: 'airflow.api.auth.backend.basic_auth'
       AIRFLOW__CORE__DEFAULT_TIMEZONE: 'Asia/Jakarta'
+      GOOGLE_APPLICATION_CREDENTIALS: /opt/airflow/gcp-credentials.json
     volumes:
       - ./airflow/dags:/opt/airflow/dags
       - ./dbt:/opt/airflow/dbt
       - ./data:/opt/airflow/data
       - ./ingestion:/opt/airflow/ingestion
+      - ./gcp-credentials.json:/opt/airflow/gcp-credentials.json:ro
     depends_on:
       postgres:
         condition: service_healthy
@@ -49,11 +51,13 @@ services:
       AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
       AIRFLOW__API__AUTH_BACKENDS: 'airflow.api.auth.backend.basic_auth'
       AIRFLOW__CORE__DEFAULT_TIMEZONE: 'Asia/Jakarta'
+      GOOGLE_APPLICATION_CREDENTIALS: /opt/airflow/gcp-credentials.json
     volumes:
       - ./airflow/dags:/opt/airflow/dags
       - ./dbt:/opt/airflow/dbt
       - ./data:/opt/airflow/data
       - ./ingestion:/opt/airflow/ingestion
+      - ./gcp-credentials.json:/opt/airflow/gcp-credentials.json:ro
     depends_on:
       postgres:
         condition: service_healthy
@@ -68,13 +72,29 @@ services:
       AIRFLOW__CORE__FERNET_KEY: ''
       AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
       AIRFLOW__CORE__DEFAULT_TIMEZONE: 'Asia/Jakarta'
+      GOOGLE_APPLICATION_CREDENTIALS: /opt/airflow/gcp-credentials.json
       _AIRFLOW_DB_UPGRADE: 'true'
       _AIRFLOW_WWW_USER_CREATE: 'true'
       _AIRFLOW_WWW_USER_USERNAME: admin
       _AIRFLOW_WWW_USER_PASSWORD: admin
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./dbt:/opt/airflow/dbt
+      - ./data:/opt/airflow/data
+      - ./ingestion:/opt/airflow/ingestion
+      - ./gcp-credentials.json:/opt/airflow/gcp-credentials.json:ro
     depends_on:
       postgres:
         condition: service_healthy
+
+  dbt-docs:
+    image: python:3.11-slim
+    command: python -m http.server 8081 --directory /docs
+    volumes:
+      - ./dbt/nhtsa_project/target:/docs
+    ports:
+      - "8081:8081"
+    restart: always
 
 volumes:
   postgres_db_volume:

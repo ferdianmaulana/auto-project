@@ -22,13 +22,19 @@ jobs:
           script: |
             cd ~/project-pipeline
 
-            # Pull latest code from GitHub
+            # Pull latest code
             git pull origin main
 
-            # Rebuild Docker image if Dockerfile changed
-            sudo docker compose build
+            # Write GCP credentials to file from env (injected by GitHub Actions)
+            echo '${{ secrets.GOOGLE_CREDENTIALS_JSON }}' > ~/project-pipeline/gcp-credentials.json
 
-            # Restart services with new code
+            # Only rebuild if Dockerfile changed
+            if git diff HEAD~1 --name-only | grep -q "Dockerfile"; then
+              echo "Dockerfile changed — rebuilding..."
+              sudo docker compose build
+            fi
+
+            # Restart services
             sudo docker compose up -d
 
             echo "✅ Deployment complete!"
