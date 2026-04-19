@@ -2,7 +2,7 @@ GCP_PROJECT = "auto-project"
 BQ_DATASET = "raw"
 BQ_TABLE = "recalls"
 
-NHTSA_BASE_URL = "https://api.nhtsa.gov"
+BASE_URL = "https://api.nhtsa.gov"
 API_ENDPOINT = "/recalls/recallsByVehicle"
 
 VEHICLE_SCOPE = {

@@ -7,7 +7,7 @@ from utils.bigquery import get_bq_client, load_to_bq
 from utils.logger import get_logger
 from raw_safety_ratings.config import (
     GCP_PROJECT, BQ_DATASET, BQ_TABLE,
-    NHTSA_BASE_URL, API_ENDPOINT_TEMPLATE,
+    BASE_URL, API_ENDPOINT_TEMPLATE,
     VEHICLE_SCOPE, MODEL_YEARS, WRITE_MODE,
 )
 

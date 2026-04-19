@@ -2,7 +2,7 @@ GCP_PROJECT = "auto-project"
 BQ_DATASET = "raw"
 BQ_TABLE = "safety_ratings"
 
-NHTSA_BASE_URL = "https://api.nhtsa.gov"
+BASE_URL = "https://api.nhtsa.gov"
 
 # Safety ratings uses path params — template instead of single endpoint
 API_ENDPOINT_TEMPLATE = "/SafetyRatings/modelyear/{year}/make/{make}/model/{model}"
