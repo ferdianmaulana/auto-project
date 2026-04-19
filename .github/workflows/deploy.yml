@@ -28,12 +28,16 @@ jobs:
             # Write GCP credentials to file from env (injected by GitHub Actions)
             echo '${{ secrets.GOOGLE_CREDENTIALS_JSON }}' > ~/project-pipeline/gcp-credentials.json
 
-            # Only rebuild if Dockerfile changed
-            if git diff HEAD~1 --name-only | grep -q "Dockerfile"; then
-              echo "Dockerfile changed — rebuilding..."
-              sudo docker compose build
+            # Rebuild if Dockerfile OR requirements.txt changed
+            if git diff HEAD~1 --name-only | grep -qE "Dockerfile|requirements.txt"; then
+              echo "Dockerfile or requirements.txt changed — rebuilding..."
+              sudo docker compose down
+              sudo docker compose build --no-cache
+              sudo docker compose up airflow-init
+            else
+              echo "No rebuild needed — skipping"
             fi
-
+            
             # Restart services
             sudo docker compose up -d
 
