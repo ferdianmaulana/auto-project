@@ -27,7 +27,7 @@ def fetch_safety_ratings(make: str, model: str, year: int) -> list:
     )
 
     response = call_api_with_retry(
-        base_url=NHTSA_BASE_URL,
+        base_url=BASE_URL,
         endpoint=endpoint,
     )
 

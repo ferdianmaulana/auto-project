@@ -20,7 +20,7 @@ def fetch_complaints(make: str, model: str, year: int) -> list:
     from the NHTSA API.
     """
     response = call_api_with_retry(
-        base_url=NHTSA_BASE_URL,
+        base_url=BASE_URL,
         endpoint=API_ENDPOINT,
         params={"make": make, "model": model, "modelYear": year},
     )
