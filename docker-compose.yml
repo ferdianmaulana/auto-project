@@ -28,9 +28,12 @@ services:
       AIRFLOW__API__AUTH_BACKENDS: 'airflow.api.auth.backend.basic_auth'
       AIRFLOW__CORE__DEFAULT_TIMEZONE: 'Asia/Jakarta'
       AIRFLOW__WEBSERVER__SECRET_KEY: '${AIRFLOW_SECRET_KEY}'
+      AIRFLOW__LOGGING__BASE_LOG_FOLDER: /opt/airflow/logs
+      AIRFLOW__LOGGING__LOGGING_LEVEL: INFO
       GOOGLE_APPLICATION_CREDENTIALS: /opt/airflow/gcp-credentials.json
     volumes:
       - ./airflow/dags:/opt/airflow/dags
+      - ./airflow/logs:/opt/airflow/logs
       - ./dbt:/opt/airflow/dbt
       - ./data:/opt/airflow/data
       - ./ingestion:/opt/airflow/ingestion
@@ -53,9 +56,12 @@ services:
       AIRFLOW__API__AUTH_BACKENDS: 'airflow.api.auth.backend.basic_auth'
       AIRFLOW__CORE__DEFAULT_TIMEZONE: 'Asia/Jakarta'
       AIRFLOW__WEBSERVER__SECRET_KEY: '${AIRFLOW_SECRET_KEY}'
+      AIRFLOW__LOGGING__BASE_LOG_FOLDER: /opt/airflow/logs
+      AIRFLOW__LOGGING__LOGGING_LEVEL: INFO
       GOOGLE_APPLICATION_CREDENTIALS: /opt/airflow/gcp-credentials.json
     volumes:
       - ./airflow/dags:/opt/airflow/dags
+      - ./airflow/logs:/opt/airflow/logs
       - ./dbt:/opt/airflow/dbt
       - ./data:/opt/airflow/data
       - ./ingestion:/opt/airflow/ingestion
@@ -75,6 +81,7 @@ services:
       AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
       AIRFLOW__CORE__DEFAULT_TIMEZONE: 'Asia/Jakarta'
       AIRFLOW__WEBSERVER__SECRET_KEY: '${AIRFLOW_SECRET_KEY}'
+      AIRFLOW__LOGGING__BASE_LOG_FOLDER: /opt/airflow/logs
       GOOGLE_APPLICATION_CREDENTIALS: /opt/airflow/gcp-credentials.json
       _AIRFLOW_DB_UPGRADE: 'true'
       _AIRFLOW_WWW_USER_CREATE: 'true'
@@ -82,6 +89,7 @@ services:
       _AIRFLOW_WWW_USER_PASSWORD: admin
     volumes:
       - ./airflow/dags:/opt/airflow/dags
+      - ./airflow/logs:/opt/airflow/logs
       - ./dbt:/opt/airflow/dbt
       - ./data:/opt/airflow/data
       - ./ingestion:/opt/airflow/ingestion
