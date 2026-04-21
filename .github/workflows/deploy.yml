@@ -29,6 +29,8 @@ jobs:
 
             # Write GCP credentials to file from env (injected by GitHub Actions)
             echo '${{ secrets.GOOGLE_CREDENTIALS_JSON }}' > ~/project-pipeline/gcp-credentials.json
+            
+            echo "AIRFLOW_SECRET_KEY=${{ secrets.AIRFLOW_SECRET_KEY }}" > ~/project-pipeline/.env
 
             # Rebuild Docker image if Dockerfile changed
             sudo docker compose build
@@ -36,4 +38,4 @@ jobs:
             # Restart services with new code
             sudo docker compose up -d
 
-            echo "✅ Deployment complete!"
+            echo "Deployment complete!"
