@@ -30,6 +30,11 @@ services:
       AIRFLOW__WEBSERVER__SECRET_KEY: '${AIRFLOW_SECRET_KEY}'
       AIRFLOW__LOGGING__BASE_LOG_FOLDER: /opt/airflow/logs
       AIRFLOW__LOGGING__LOGGING_LEVEL: INFO
+      AIRFLOW__LOGGING__REMOTE_LOGGING: 'false'
+      AIRFLOW__LOGGING__LOG_FETCH_TIMEOUT_SEC: '0'
+      AIRFLOW__LOGGING__LOG_FETCH_DELAY_SEC: '0'
+      AIRFLOW__LOGGING__LOG_AUTO_TAILING_OFFSET: '0'
+      AIRFLOW__WEBSERVER__LOG_FETCH_TIMEOUT_SEC: '0'
       GOOGLE_APPLICATION_CREDENTIALS: /opt/airflow/gcp-credentials.json
     volumes:
       - ./airflow/dags:/opt/airflow/dags
@@ -59,6 +64,11 @@ services:
       AIRFLOW__WEBSERVER__SECRET_KEY: '${AIRFLOW_SECRET_KEY}'
       AIRFLOW__LOGGING__BASE_LOG_FOLDER: /opt/airflow/logs
       AIRFLOW__LOGGING__LOGGING_LEVEL: INFO
+      AIRFLOW__LOGGING__REMOTE_LOGGING: 'false'
+      AIRFLOW__LOGGING__LOG_FETCH_TIMEOUT_SEC: '0'
+      AIRFLOW__LOGGING__LOG_FETCH_DELAY_SEC: '0'
+      AIRFLOW__LOGGING__LOG_AUTO_TAILING_OFFSET: '0'
+      AIRFLOW__WEBSERVER__LOG_FETCH_TIMEOUT_SEC: '0'
       GOOGLE_APPLICATION_CREDENTIALS: /opt/airflow/gcp-credentials.json
     volumes:
       - ./airflow/dags:/opt/airflow/dags
@@ -83,6 +93,7 @@ services:
       AIRFLOW__CORE__DEFAULT_TIMEZONE: 'Asia/Jakarta'
       AIRFLOW__WEBSERVER__SECRET_KEY: '${AIRFLOW_SECRET_KEY}'
       AIRFLOW__LOGGING__BASE_LOG_FOLDER: /opt/airflow/logs
+      AIRFLOW__LOGGING__REMOTE_LOGGING: 'false'
       GOOGLE_APPLICATION_CREDENTIALS: /opt/airflow/gcp-credentials.json
       _AIRFLOW_DB_UPGRADE: 'true'
       _AIRFLOW_WWW_USER_CREATE: 'true'
