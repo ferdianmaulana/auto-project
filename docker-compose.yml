@@ -45,6 +45,7 @@ services:
   airflow-scheduler:
     build: .
     user: "0:0"
+    hostname: airflow-scheduler
     command: scheduler
     restart: always
     environment:
