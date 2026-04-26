@@ -18,7 +18,7 @@ from raw_warranty_claims.fetch import run_fetch as fetch_warranty_claims
 from raw_warranty_claims.validate import run_validation as validate_warranty_claims
 
 default_args = {
-    'owner': 'your_name',
+    'owner': 'Ferdian',
     'retries': 2,
     'retry_delay': timedelta(minutes=5),
     'email_on_failure': False,
@@ -28,12 +28,12 @@ default_args = {
 with DAG(
     dag_id='raw_auto_dummy_api_dag',
     default_args=default_args,
-    description='Daily ingestion of automotive aftersales data into BigQuery',
-    schedule_interval='@daily',
+    description='Daily ingestion of automotive aftersales and sales data into BigQuery',
+    schedule_interval='0 18 * * *',
     start_date=datetime(2024, 1, 1),
     catchup=False,
     max_active_runs=1,
-    tags=['batch', 'automotive', 'aftersales', 'daily'],
+    tags=['batch', 'automotive', 'aftersales', 'sales', 'daily'],
 ) as dag:
 
     # ── Master Data ──────────────────────────────────────────
