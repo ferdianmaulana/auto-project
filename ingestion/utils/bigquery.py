@@ -10,7 +10,7 @@ def get_bq_client(project: str) -> bigquery.Client:
     Works for any GCP project.
 
     Args:
-        project: GCP project ID e.g. "auto-project"
+        project: GCP project ID e.g. "auto-project-493707"
     """
     return bigquery.Client(project=project)
 

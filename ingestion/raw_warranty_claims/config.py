@@ -1,4 +1,4 @@
-GCP_PROJECT = "auto-project"
+GCP_PROJECT = "auto-project-493707"
 BQ_DATASET  = "raw"
 BQ_TABLE    = "warranty_claims"
 
