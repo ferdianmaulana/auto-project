@@ -35,6 +35,7 @@ services:
       AIRFLOW__LOGGING__LOG_FETCH_DELAY_SEC: '0'
       AIRFLOW__LOGGING__LOG_AUTO_TAILING_OFFSET: '0'
       AIRFLOW__WEBSERVER__LOG_FETCH_TIMEOUT_SEC: '0'
+      AUTO_API_URL: '${AUTO_API_URL}'
       GOOGLE_APPLICATION_CREDENTIALS: /opt/airflow/gcp-credentials.json
     volumes:
       - ./airflow/dags:/opt/airflow/dags
@@ -69,6 +70,7 @@ services:
       AIRFLOW__LOGGING__LOG_FETCH_DELAY_SEC: '0'
       AIRFLOW__LOGGING__LOG_AUTO_TAILING_OFFSET: '0'
       AIRFLOW__WEBSERVER__LOG_FETCH_TIMEOUT_SEC: '0'
+      AUTO_API_URL: '${AUTO_API_URL}'
       GOOGLE_APPLICATION_CREDENTIALS: /opt/airflow/gcp-credentials.json
     volumes:
       - ./airflow/dags:/opt/airflow/dags
@@ -94,6 +96,7 @@ services:
       AIRFLOW__WEBSERVER__SECRET_KEY: '${AIRFLOW_SECRET_KEY}'
       AIRFLOW__LOGGING__BASE_LOG_FOLDER: /opt/airflow/logs
       AIRFLOW__LOGGING__REMOTE_LOGGING: 'false'
+      AUTO_API_URL: '${AUTO_API_URL}'
       GOOGLE_APPLICATION_CREDENTIALS: /opt/airflow/gcp-credentials.json
       _AIRFLOW_DB_UPGRADE: 'true'
       _AIRFLOW_WWW_USER_CREATE: 'true'

@@ -10,7 +10,7 @@ def get_bq_client(project: str) -> bigquery.Client:
     Works for any GCP project.
 
     Args:
-        project: GCP project ID e.g. "de-portfolio-automotive"
+        project: GCP project ID e.g. "auto-project"
     """
     return bigquery.Client(project=project)
 
@@ -166,3 +166,70 @@ def get_row_count(
     query = f"SELECT COUNT(*) FROM `{table_id}`"
     rows = run_bq_query(client, query)
     return rows[0][0]
+
+def run_validations(
+    project: str,
+    dataset: str,
+    table: str,
+    checks: dict,
+    extra_checks: dict = None,
+) -> None:
+    """
+    Generic validation runner for any BigQuery table.
+    Runs all checks defined in the checks dict.
+    Raises ValueError if any check fails.
+
+    Args:
+        project:      GCP project ID
+        dataset:      BigQuery dataset ID
+        table:        BigQuery table ID
+        checks:       Dict of {check_name: sql_template} from config.py
+                      SQL template must contain {table_id} placeholder
+        extra_checks: Optional additional checks (e.g. today_data_exists)
+                      Same format as checks dict but without {table_id} placeholder
+                      since they may contain dynamic values like today's date
+
+    Example:
+        run_validations(
+            project="my-project",
+            dataset="raw_automotive",
+            table="raw_service_orders",
+            checks=VALIDATION_CHECKS,
+            extra_checks={
+                "today_data_exists": f"SELECT IF(COUNT(*) = 0, 1, 0) FROM `{TABLE_ID}` WHERE order_date = '{today}'"
+            }
+        )
+    """
+    client   = get_bq_client(project)
+    table_id = f"{project}.{dataset}.{table}"
+    logger   = get_logger("utils.bigquery")
+
+    # Check table exists first
+    if not table_exists(client, project, dataset, table):
+        raise ValueError(
+            f"❌ Table {table_id} does not exist — was ingestion run?"
+        )
+
+    failed = []
+
+    # Run standard checks from config
+    for check_name, query_template in checks.items():
+        query  = query_template.format(table_id=table_id)
+        passed = validate_bq_check(client, check_name, query)
+        if not passed:
+            failed.append(check_name)
+
+    # Run extra checks (dynamic — e.g. today's date)
+    if extra_checks:
+        for check_name, query in extra_checks.items():
+            passed = validate_bq_check(client, check_name, query)
+            if not passed:
+                failed.append(check_name)
+
+    if failed:
+        raise ValueError(
+            f"❌ Validation failed for {table_id}. "
+            f"Failed checks: {', '.join(failed)}"
+        )
+
+    logger.info(f"✅ All validation checks passed for {table_id}")
