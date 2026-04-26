@@ -1,0 +1,130 @@
+from google.cloud.bigquery import SchemaField
+
+SCHEMA = [
+    SchemaField(
+        "sale_id",
+        "STRING",
+        mode="REQUIRED",
+        description="Unique sales order identifier — format: SL-{YYYYMMDD}-{SEQ}",
+    ),
+    SchemaField(
+        "sale_date",
+        "DATE",
+        mode="REQUIRED",
+        description="Date the vehicle sale was completed",
+    ),
+    SchemaField(
+        "dealer_id",
+        "STRING",
+        mode="REQUIRED",
+        description="Dealer ID where vehicle was sold — FK to dealers master",
+    ),
+    SchemaField(
+        "dealer_city",
+        "STRING",
+        mode="NULLABLE",
+        description="City where the selling dealer is located",
+    ),
+    SchemaField(
+        "dealer_region",
+        "STRING",
+        mode="NULLABLE",
+        description="Province/region where the selling dealer is located",
+    ),
+    SchemaField(
+        "vehicle_id",
+        "STRING",
+        mode="REQUIRED",
+        description="Vehicle identifier — FK to raw_vehicles.vehicle_id",
+    ),
+    SchemaField(
+        "brand",
+        "STRING",
+        mode="NULLABLE",
+        description="Vehicle brand — denormalized from vehicles for query convenience",
+    ),
+    SchemaField(
+        "model",
+        "STRING",
+        mode="NULLABLE",
+        description="Vehicle model — denormalized from vehicles for query convenience",
+    ),
+    SchemaField(
+        "model_year",
+        "INTEGER",
+        mode="NULLABLE",
+        description="Vehicle manufacturing year — denormalized from vehicles",
+    ),
+    SchemaField(
+        "variant",
+        "STRING",
+        mode="NULLABLE",
+        description="Vehicle variant/trim level sold",
+    ),
+    SchemaField(
+        "fuel_type",
+        "STRING",
+        mode="NULLABLE",
+        description="Fuel type of sold vehicle — Gasoline, Diesel, Electric, Hybrid",
+    ),
+    SchemaField(
+        "color",
+        "STRING",
+        mode="NULLABLE",
+        description="Exterior color of the sold vehicle",
+    ),
+    SchemaField(
+        "sale_type",
+        "STRING",
+        mode="REQUIRED",
+        description="Payment method — Cash, Credit, or Leasing",
+    ),
+    SchemaField(
+        "leasing_company",
+        "STRING",
+        mode="NULLABLE",
+        description="Leasing company name if sale_type is Leasing — e.g. Adira Finance",
+    ),
+    SchemaField(
+        "otr_price",
+        "FLOAT",
+        mode="NULLABLE",
+        description="On The Road price in IDR — includes all taxes and fees",
+    ),
+    SchemaField(
+        "discount",
+        "FLOAT",
+        mode="NULLABLE",
+        description="Discount amount in IDR applied to OTR price",
+    ),
+    SchemaField(
+        "final_price",
+        "FLOAT",
+        mode="NULLABLE",
+        description="Final selling price in IDR after discount — otr_price minus discount",
+    ),
+    SchemaField(
+        "delivery_date",
+        "DATE",
+        mode="NULLABLE",
+        description="Expected vehicle delivery date to customer",
+    ),
+    SchemaField(
+        "sales_person_id",
+        "STRING",
+        mode="NULLABLE",
+        description="Sales person ID who handled the transaction",
+    ),
+    SchemaField(
+        "customer_city",
+        "STRING",
+        mode="NULLABLE",
+        description="City where the customer is located",
+    ),
+    SchemaField(
+        "ingested_at",
+        "TIMESTAMP",
+        mode="NULLABLE",
+        description="UTC timestamp when this record was ingested into BigQuery",
+    ),
+]

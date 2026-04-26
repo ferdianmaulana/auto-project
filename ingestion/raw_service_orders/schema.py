@@ -1,0 +1,136 @@
+from google.cloud.bigquery import SchemaField
+
+SCHEMA = [
+    SchemaField(
+        "order_id",
+        "STRING",
+        mode="REQUIRED",
+        description="Unique service order identifier — format: SO-{YYYYMMDD}-{SEQ}",
+    ),
+    SchemaField(
+        "order_date",
+        "DATE",
+        mode="REQUIRED",
+        description="Date the service order was created",
+    ),
+    SchemaField(
+        "dealer_id",
+        "STRING",
+        mode="REQUIRED",
+        description="Dealer ID where service was performed — FK to dealers master",
+    ),
+    SchemaField(
+        "dealer_city",
+        "STRING",
+        mode="NULLABLE",
+        description="City where the dealer is located",
+    ),
+    SchemaField(
+        "dealer_region",
+        "STRING",
+        mode="NULLABLE",
+        description="Province/region where the dealer is located",
+    ),
+    SchemaField(
+        "vehicle_id",
+        "STRING",
+        mode="REQUIRED",
+        description="Vehicle identifier — FK to raw_vehicles.vehicle_id",
+    ),
+    SchemaField(
+        "brand",
+        "STRING",
+        mode="NULLABLE",
+        description="Vehicle brand — denormalized from vehicles for query convenience",
+    ),
+    SchemaField(
+        "model",
+        "STRING",
+        mode="NULLABLE",
+        description="Vehicle model — denormalized from vehicles for query convenience",
+    ),
+    SchemaField(
+        "model_year",
+        "INTEGER",
+        mode="NULLABLE",
+        description="Vehicle manufacturing year — denormalized from vehicles",
+    ),
+    SchemaField(
+        "service_type",
+        "STRING",
+        mode="REQUIRED",
+        description="Type of service — Periodic, Repair, Body & Paint, PDI, Recall",
+    ),
+    SchemaField(
+        "component",
+        "STRING",
+        mode="NULLABLE",
+        description="Primary component serviced — Engine, Brakes, AC System, etc.",
+    ),
+    SchemaField(
+        "status",
+        "STRING",
+        mode="NULLABLE",
+        description="Order status — Open, In Progress, Completed, Cancelled",
+    ),
+    SchemaField(
+        "mileage_in",
+        "INTEGER",
+        mode="NULLABLE",
+        description="Vehicle odometer reading in km when it arrived at the dealer",
+    ),
+    SchemaField(
+        "estimated_hours",
+        "FLOAT",
+        mode="NULLABLE",
+        description="Estimated labor hours for the service",
+    ),
+    SchemaField(
+        "actual_hours",
+        "FLOAT",
+        mode="NULLABLE",
+        description="Actual labor hours spent on the service",
+    ),
+    SchemaField(
+        "total_parts_cost",
+        "FLOAT",
+        mode="NULLABLE",
+        description="Total cost of parts used in IDR",
+    ),
+    SchemaField(
+        "total_labor_cost",
+        "FLOAT",
+        mode="NULLABLE",
+        description="Total labor cost in IDR based on technician level and hours",
+    ),
+    SchemaField(
+        "total_cost",
+        "FLOAT",
+        mode="NULLABLE",
+        description="Total service cost in IDR — parts + labor",
+    ),
+    SchemaField(
+        "is_warranty",
+        "BOOLEAN",
+        mode="NULLABLE",
+        description="Whether this service order is covered under vehicle warranty",
+    ),
+    SchemaField(
+        "technician_id",
+        "STRING",
+        mode="NULLABLE",
+        description="Technician ID who performed the service — FK to technicians master",
+    ),
+    SchemaField(
+        "technician_level",
+        "STRING",
+        mode="NULLABLE",
+        description="Technician skill level — Junior, Senior, or Master",
+    ),
+    SchemaField(
+        "ingested_at",
+        "TIMESTAMP",
+        mode="NULLABLE",
+        description="UTC timestamp when this record was ingested into BigQuery",
+    ),
+]

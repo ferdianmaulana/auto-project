@@ -9,6 +9,7 @@ from raw_service_orders.config import (
     GCP_PROJECT, BQ_DATASET, BQ_TABLE,
     API_ENDPOINT, WRITE_MODE,
 )
+from raw_service_orders.schema import SCHEMA
 
 logger = get_logger(__name__)
 
@@ -52,6 +53,7 @@ def run_fetch(logical_date: str = None):
         dataset=BQ_DATASET,
         table=BQ_TABLE,
         write_mode=WRITE_MODE,
+        schema=SCHEMA,
     )
 
     logger.info("Service orders ingestion complete!")

@@ -9,6 +9,7 @@ from raw_spare_parts.config import (
     GCP_PROJECT, BQ_DATASET, BQ_TABLE,
     API_ENDPOINT, WRITE_MODE,
 )
+from raw_spare_parts.schema import SCHEMA
 
 logger = get_logger(__name__)
 
@@ -39,6 +40,7 @@ def run_fetch():
         dataset=BQ_DATASET,
         table=BQ_TABLE,
         write_mode=WRITE_MODE,
+        schema=SCHEMA,
     )
 
     logger.info("Spare parts ingestion complete!")

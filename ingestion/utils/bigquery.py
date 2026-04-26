@@ -22,10 +22,11 @@ def load_to_bq(
     dataset: str,
     table: str,
     write_mode: str = "APPEND",
+    schema: list = None,
 ) -> None:
     """
     Loads a list of dicts into any BigQuery table.
-    Schema is auto-detected from the data.
+    Uses explicit schema when provided, otherwise falls back to autodetect.
 
     Args:
         client:     BigQuery client
@@ -35,6 +36,8 @@ def load_to_bq(
         table:      BigQuery table ID
         write_mode: "APPEND", "TRUNCATE", or "EMPTY"
                     Defaults to APPEND for raw layer
+        schema:     Optional list of bigquery.SchemaField. When provided,
+                    enforces types and persists column descriptions in BigQuery.
     """
     if not rows:
         logger.info(f"No rows to load into {dataset}.{table} — skipping")
@@ -55,8 +58,8 @@ def load_to_bq(
 
     job_config = bigquery.LoadJobConfig(
         write_disposition=write_disposition,
-        autodetect=True,
         source_format=bigquery.SourceFormat.NEWLINE_DELIMITED_JSON,
+        **({"schema": schema} if schema else {"autodetect": True}),
     )
 
     job = client.load_table_from_json(rows, table_id, job_config=job_config)
