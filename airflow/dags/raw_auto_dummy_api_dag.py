@@ -22,7 +22,7 @@ default_args = {
     'retries': 2,
     'retry_delay': timedelta(minutes=5),
     'email_on_failure': False,
-    'depends_on_past': True,
+    'depends_on_past': False,
 }
 
 with DAG(
