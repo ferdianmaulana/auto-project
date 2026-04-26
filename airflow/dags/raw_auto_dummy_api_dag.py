@@ -29,7 +29,7 @@ with DAG(
     dag_id='raw_auto_dummy_api_dag',
     default_args=default_args,
     description='Daily ingestion of automotive aftersales and sales data into BigQuery',
-    schedule_interval='0 18 * * *',
+    schedule_interval='0 1 * * *',
     start_date=datetime(2024, 1, 1),
     catchup=False,
     max_active_runs=1,
