@@ -33,14 +33,14 @@ def fetch_service_orders(target_date: date = None) -> list:
     return results
 
 
-def run_fetch():
+def run_fetch(logical_date: str = None):
     """
     Main entry point.
-    Fetches today's service orders and appends to BigQuery.
+    Fetches service orders for the DAG's logical_date and appends to BigQuery.
     Called by Airflow DAG task.
     """
     client      = get_bq_client(GCP_PROJECT)
-    target_date = date.today()
+    target_date = date.fromisoformat(logical_date) if logical_date else date.today()
     rows        = fetch_service_orders(target_date)
 
     logger.info(f"Total service orders fetched for {target_date}: {len(rows)}")

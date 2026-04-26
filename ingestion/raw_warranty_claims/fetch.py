@@ -29,9 +29,9 @@ def fetch_warranty_claims(target_date: date = None) -> list:
     return results
 
 
-def run_fetch():
+def run_fetch(logical_date: str = None):
     client      = get_bq_client(GCP_PROJECT)
-    target_date = date.today()
+    target_date = date.fromisoformat(logical_date) if logical_date else date.today()
     rows        = fetch_warranty_claims(target_date)
 
     logger.info(f"Total warranty claims fetched for {target_date}: {len(rows)}")

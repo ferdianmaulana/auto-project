@@ -22,7 +22,7 @@ default_args = {
     'retries': 2,
     'retry_delay': timedelta(minutes=5),
     'email_on_failure': False,
-    'depends_on_past': False,
+    'depends_on_past': True,
 }
 
 with DAG(
@@ -59,37 +59,45 @@ with DAG(
     task_fetch_service_orders = PythonOperator(
         task_id='fetch_service_orders',
         python_callable=fetch_service_orders,
+        op_kwargs={'logical_date': '{{ ds }}'},
     )
     task_validate_service_orders = PythonOperator(
         task_id='validate_service_orders',
         python_callable=validate_service_orders,
+        op_kwargs={'logical_date': '{{ ds }}'},
     )
 
     task_fetch_service_order_items = PythonOperator(
         task_id='fetch_service_order_items',
         python_callable=fetch_service_order_items,
+        op_kwargs={'logical_date': '{{ ds }}'},
     )
     task_validate_service_order_items = PythonOperator(
         task_id='validate_service_order_items',
         python_callable=validate_service_order_items,
+        op_kwargs={'logical_date': '{{ ds }}'},
     )
 
     task_fetch_sales_orders = PythonOperator(
         task_id='fetch_sales_orders',
         python_callable=fetch_sales_orders,
+        op_kwargs={'logical_date': '{{ ds }}'},
     )
     task_validate_sales_orders = PythonOperator(
         task_id='validate_sales_orders',
         python_callable=validate_sales_orders,
+        op_kwargs={'logical_date': '{{ ds }}'},
     )
 
     task_fetch_warranty_claims = PythonOperator(
         task_id='fetch_warranty_claims',
         python_callable=fetch_warranty_claims,
+        op_kwargs={'logical_date': '{{ ds }}'},
     )
     task_validate_warranty_claims = PythonOperator(
         task_id='validate_warranty_claims',
         python_callable=validate_warranty_claims,
+        op_kwargs={'logical_date': '{{ ds }}'},
     )
 
     # ── Dependencies ─────────────────────────────────────────

@@ -8,8 +8,8 @@ from raw_service_orders.config import GCP_PROJECT, BQ_DATASET, BQ_TABLE, VALIDAT
 TABLE_ID = f"{GCP_PROJECT}.{BQ_DATASET}.{BQ_TABLE}"
 
 
-def run_validation():
-    today = str(date.today())
+def run_validation(logical_date: str = None):
+    today = logical_date or str(date.today())
     run_validations(
         GCP_PROJECT, BQ_DATASET, BQ_TABLE,
         checks=VALIDATION_CHECKS,
