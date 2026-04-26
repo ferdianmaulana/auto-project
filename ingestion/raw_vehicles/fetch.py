@@ -2,7 +2,7 @@ import sys
 sys.path.append('/opt/airflow/ingestion')
 
 from datetime import datetime
-from utils.dummy_api import call_api_with_retry, get_mock_api_url
+from utils.dummy_api import call_api_with_retry, get_dummy_api_url
 from utils.bigquery import get_bq_client, load_to_bq
 from utils.logger import get_logger
 from raw_vehicles.config import (
@@ -19,7 +19,7 @@ def fetch_vehicles() -> list:
     Returns full list of registered vehicles.
     """
     response = call_api_with_retry(
-        base_url=get_mock_api_url(),
+        base_url=get_dummy_api_url(),
         endpoint=API_ENDPOINT,
     )
 

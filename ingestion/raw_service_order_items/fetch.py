@@ -2,7 +2,7 @@ import sys
 sys.path.append('/opt/airflow/ingestion')
 
 from datetime import datetime, date
-from utils.dummy_api import call_api_with_retry, get_mock_api_url
+from utils.dummy_api import call_api_with_retry, get_dummy_api_url
 from utils.bigquery import get_bq_client, load_to_bq
 from utils.logger import get_logger
 from raw_service_order_items.config import (
@@ -17,7 +17,7 @@ def fetch_service_order_items(target_date: date = None) -> list:
     target_date = target_date or date.today()
 
     response = call_api_with_retry(
-        base_url=get_mock_api_url(),
+        base_url=get_dummy_api_url(),
         endpoint=API_ENDPOINT,
         params={"date": str(target_date)},
     )
