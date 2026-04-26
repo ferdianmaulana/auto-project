@@ -41,7 +41,7 @@ def run_fetch():
         write_mode=WRITE_MODE,
     )
 
-    logger.info("✅ Spare parts ingestion complete!")
+    logger.info("Spare parts ingestion complete!")
 
 
 if __name__ == "__main__":

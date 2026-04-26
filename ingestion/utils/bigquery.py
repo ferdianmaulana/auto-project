@@ -207,7 +207,7 @@ def run_validations(
     # Check table exists first
     if not table_exists(client, project, dataset, table):
         raise ValueError(
-            f"❌ Table {table_id} does not exist — was ingestion run?"
+            f"Table {table_id} does not exist — was ingestion run?"
         )
 
     failed = []
@@ -228,8 +228,8 @@ def run_validations(
 
     if failed:
         raise ValueError(
-            f"❌ Validation failed for {table_id}. "
+            f"Validation failed for {table_id}. "
             f"Failed checks: {', '.join(failed)}"
         )
 
-    logger.info(f"✅ All validation checks passed for {table_id}")
+    logger.info(f"All validation checks passed for {table_id}")

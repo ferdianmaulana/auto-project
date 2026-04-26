@@ -54,7 +54,7 @@ def run_fetch():
         write_mode=WRITE_MODE,
     )
 
-    logger.info("✅ Service orders ingestion complete!")
+    logger.info("Service orders ingestion complete!")
 
 
 if __name__ == "__main__":
