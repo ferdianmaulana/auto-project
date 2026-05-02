@@ -117,7 +117,7 @@ services:
     image: python:3.11-slim
     command: python -m http.server 8081 --directory /docs
     volumes:
-      - ./dbt/dbt_auto_project/target:/docs
+      - ./dbt/auto_project/target:/docs
     ports:
       - "8081:8081"
     restart: always
