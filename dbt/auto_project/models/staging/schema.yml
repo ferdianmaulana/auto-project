@@ -1,0 +1,168 @@
+version: 2
+
+models:
+  - name: stg_vehicles
+    description: "Cleaned and deduplicated vehicle master data"
+    columns:
+      - name: vehicle_id
+        description: "Unique vehicle identifier"
+        tests:
+          - not_null
+          - unique
+      - name: brand
+        description: "Vehicle manufacturer brand — uppercased"
+        tests:
+          - not_null
+      - name: model
+        description: "Vehicle model name — uppercased"
+        tests:
+          - not_null
+      - name: year
+        description: "Manufacturing year"
+        tests:
+          - not_null
+      - name: fuel_type
+        description: "Fuel type"
+        tests:
+          - accepted_values:
+              values: ['Gasoline', 'Diesel', 'Electric', 'Hybrid']
+      - name: transmission
+        description: "Transmission type"
+        tests:
+          - accepted_values:
+              values: ['Manual', 'Automatic', 'CVT']
+
+  - name: stg_spare_parts
+    description: "Cleaned and deduplicated spare parts catalog"
+    columns:
+      - name: part_number
+        description: "Unique part identifier"
+        tests:
+          - not_null
+          - unique
+      - name: part_name
+        description: "Part name"
+        tests:
+          - not_null
+      - name: unit_price
+        description: "Unit price in IDR"
+        tests:
+          - not_null
+
+  - name: stg_service_orders
+    description: "Cleaned and deduplicated service orders"
+    columns:
+      - name: order_id
+        description: "Unique service order identifier"
+        tests:
+          - not_null
+          - unique
+      - name: order_date
+        description: "Date of service order"
+        tests:
+          - not_null
+      - name: dealer_id
+        description: "Dealer identifier"
+        tests:
+          - not_null
+      - name: vehicle_id
+        description: "Vehicle identifier"
+        tests:
+          - not_null
+      - name: service_type
+        description: "Type of service"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Periodic', 'Repair', 'Body & Paint', 'PDI', 'Recall']
+      - name: status
+        description: "Order status"
+        tests:
+          - accepted_values:
+              values: ['Open', 'In Progress', 'Completed', 'Cancelled']
+      - name: total_cost
+        description: "Total service cost in IDR"
+        tests:
+          - not_null
+
+  - name: stg_service_order_items
+    description: "Cleaned and deduplicated service order line items"
+    columns:
+      - name: item_id
+        description: "Unique item identifier"
+        tests:
+          - not_null
+          - unique
+      - name: order_id
+        description: "Parent service order"
+        tests:
+          - not_null
+      - name: item_type
+        description: "Type of line item"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Part', 'Labor', 'Fluid', 'Consumable']
+      - name: total_price
+        description: "Total line item price"
+        tests:
+          - not_null
+
+  - name: stg_sales_orders
+    description: "Cleaned and deduplicated sales orders"
+    columns:
+      - name: sale_id
+        description: "Unique sales order identifier"
+        tests:
+          - not_null
+          - unique
+      - name: sale_date
+        description: "Date of sale"
+        tests:
+          - not_null
+      - name: dealer_id
+        description: "Dealer identifier"
+        tests:
+          - not_null
+      - name: vehicle_id
+        description: "Vehicle identifier"
+        tests:
+          - not_null
+      - name: sale_type
+        description: "Payment method"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Cash', 'Credit', 'Leasing']
+      - name: final_price
+        description: "Final selling price in IDR"
+        tests:
+          - not_null
+
+  - name: stg_warranty_claims
+    description: "Cleaned and deduplicated warranty claims"
+    columns:
+      - name: claim_id
+        description: "Unique claim identifier"
+        tests:
+          - not_null
+          - unique
+      - name: claim_date
+        description: "Date claim was submitted"
+        tests:
+          - not_null
+      - name: vehicle_id
+        description: "Vehicle identifier"
+        tests:
+          - not_null
+      - name: claim_status
+        description: "Current claim status"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Submitted', 'Approved', 'Rejected', 'Paid']
+      - name: claim_type
+        description: "What the claim covers"
+        tests:
+          - accepted_values:
+              values: ['Parts', 'Labor', 'Both']

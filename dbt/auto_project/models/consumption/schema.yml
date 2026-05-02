@@ -1,0 +1,111 @@
+version: 2
+
+models:
+  - name: dim_vehicles
+    description: "Vehicle dimension enriched with warranty status and brand segment"
+    columns:
+      - name: vehicle_id
+        description: "Unique vehicle identifier"
+        tests:
+          - not_null
+          - unique
+      - name: brand
+        description: "Vehicle brand — uppercased"
+        tests:
+          - not_null
+      - name: is_under_warranty
+        description: "Whether vehicle is currently under manufacturer warranty"
+        tests:
+          - not_null
+      - name: brand_segment
+        description: "Brand market segment"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Premium', 'Mainstream Japanese', 'Korean', 'Budget', 'Other']
+
+  - name: dim_dealers
+    description: "Dealer dimension derived from transaction data"
+    columns:
+      - name: dealer_id
+        description: "Unique dealer identifier"
+        tests:
+          - not_null
+          - unique
+      - name: dealer_tier
+        description: "Dealer tier based on city"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Tier 1', 'Tier 2', 'Tier 3', 'Tier 4']
+
+  - name: fct_service_orders
+    description: "Completed service orders enriched with vehicle and dealer dimensions"
+    columns:
+      - name: order_id
+        description: "Unique service order identifier"
+        tests:
+          - not_null
+          - unique
+      - name: order_date
+        description: "Date of service order"
+        tests:
+          - not_null
+      - name: total_cost
+        description: "Total service cost in IDR"
+        tests:
+          - not_null
+
+  - name: fct_sales_orders
+    description: "Sales orders enriched with vehicle and dealer dimensions"
+    columns:
+      - name: sale_id
+        description: "Unique sales order identifier"
+        tests:
+          - not_null
+          - unique
+      - name: sale_date
+        description: "Date of sale"
+        tests:
+          - not_null
+      - name: final_price
+        description: "Final selling price in IDR"
+        tests:
+          - not_null
+
+  - name: fct_warranty_claims
+    description: "Warranty claims enriched with vehicle and dealer dimensions"
+    columns:
+      - name: claim_id
+        description: "Unique claim identifier"
+        tests:
+          - not_null
+          - unique
+      - name: claim_date
+        description: "Date claim was submitted"
+        tests:
+          - not_null
+
+  - name: mart_dealer_performance
+    description: "Monthly dealer performance combining sales, service and warranty metrics"
+    columns:
+      - name: dealer_id
+        description: "Dealer identifier"
+        tests:
+          - not_null
+      - name: year_month
+        description: "Year and month in YYYY-MM format"
+        tests:
+          - not_null
+
+  - name: mart_brand_performance
+    description: "Monthly brand performance combining sales volume, service revenue and warranty claims"
+    columns:
+      - name: brand
+        description: "Vehicle brand"
+        tests:
+          - not_null
+      - name: year_month
+        description: "Year and month in YYYY-MM format"
+        tests:
+          - not_null

@@ -1,0 +1,110 @@
+version: 2
+
+sources:
+  - name: raw
+    database: auto-project-493707
+    schema: raw
+    description: "Raw automotive aftersales data ingested daily from Mock API"
+
+    tables:
+      - name: vehicles
+        description: "Master data of all registered vehicles"
+        columns:
+          - name: vehicle_id
+            description: "Unique vehicle identifier"
+            tests:
+              - not_null
+              - unique
+          - name: brand
+            description: "Vehicle manufacturer brand"
+            tests:
+              - not_null
+          - name: model
+            description: "Vehicle model name"
+            tests:
+              - not_null
+          - name: year
+            description: "Vehicle manufacturing year"
+            tests:
+              - not_null
+
+      - name: spare_parts
+        description: "Master catalog of spare parts"
+        columns:
+          - name: part_number
+            description: "Unique part identifier"
+            tests:
+              - not_null
+              - unique
+          - name: part_name
+            description: "Human readable part name"
+            tests:
+              - not_null
+
+      - name: service_orders
+        description: "Daily service order transactions"
+        columns:
+          - name: order_id
+            description: "Unique service order identifier"
+            tests:
+              - not_null
+          - name: order_date
+            description: "Date service order was created"
+            tests:
+              - not_null
+          - name: dealer_id
+            description: "Dealer where service was performed"
+            tests:
+              - not_null
+          - name: vehicle_id
+            description: "Vehicle being serviced"
+            tests:
+              - not_null
+
+      - name: service_order_items
+        description: "Line items for each service order"
+        columns:
+          - name: item_id
+            description: "Unique item identifier"
+            tests:
+              - not_null
+          - name: order_id
+            description: "Parent service order"
+            tests:
+              - not_null
+
+      - name: sales_orders
+        description: "Daily vehicle sales transactions"
+        columns:
+          - name: sale_id
+            description: "Unique sales order identifier"
+            tests:
+              - not_null
+          - name: sale_date
+            description: "Date vehicle was sold"
+            tests:
+              - not_null
+          - name: dealer_id
+            description: "Dealer where vehicle was sold"
+            tests:
+              - not_null
+          - name: vehicle_id
+            description: "Vehicle that was sold"
+            tests:
+              - not_null
+
+      - name: warranty_claims
+        description: "Daily warranty claim transactions"
+        columns:
+          - name: claim_id
+            description: "Unique warranty claim identifier"
+            tests:
+              - not_null
+          - name: claim_date
+            description: "Date claim was submitted"
+            tests:
+              - not_null
+          - name: vehicle_id
+            description: "Vehicle with warranty claim"
+            tests:
+              - not_null
