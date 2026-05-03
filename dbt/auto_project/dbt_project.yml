@@ -14,7 +14,7 @@ clean-targets: ["target", "dbt_packages"]
 models:
   auto_project:
     staging:
-      +materialized: view
+      +materialized: table
       +schema: staging
     consumption:
       +materialized: table
