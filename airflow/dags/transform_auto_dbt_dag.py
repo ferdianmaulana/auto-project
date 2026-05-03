@@ -50,7 +50,7 @@ with DAG(
         external_task_id=None,
         allowed_states=[DagRunState.SUCCESS],
         failed_states=[DagRunState.FAILED],
-        execution_delta=timedelta(hours=1),
+        execution_delta=timedelta(minutes=30),
         timeout=3600,
         poke_interval=60,
         mode='poke',
