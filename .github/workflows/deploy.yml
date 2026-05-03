@@ -22,21 +22,31 @@ jobs:
           script: |
             cd ~/project-pipeline
 
+            # Fix permissions
             sudo chown -R ubuntu:ubuntu ~/project-pipeline
+            sudo chown -R 50000:0 ~/project-pipeline/airflow/logs
+            sudo chmod -R 775 ~/project-pipeline/airflow/logs
 
             # Pull latest code
             git pull origin main
 
-            # Write GCP credentials to file from env (injected by GitHub Actions)
+            # Write GCP credentials
             echo '${{ secrets.GOOGLE_CREDENTIALS_JSON }}' > ~/project-pipeline/gcp-credentials.json
-            
+
+            # Write env file
             echo "AIRFLOW_SECRET_KEY=${{ secrets.AIRFLOW_SECRET_KEY }}" > ~/project-pipeline/.env
             echo "AUTO_API_URL=${{ secrets.AUTO_API_URL }}" >> ~/project-pipeline/.env
 
-            # Rebuild Docker image (always fresh to pick up requirements.txt changes)
+            # Stop all containers
+            sudo docker compose down
+
+            # Rebuild image from scratch
             sudo docker compose build --no-cache
 
-            # Restart services with new image
-            sudo docker compose up -d --force-recreate
+            # Re-initialize airflow DB
+            sudo docker compose up airflow-init
+
+            # Start all services
+            sudo docker compose up -d
 
             echo "Deployment complete!"
