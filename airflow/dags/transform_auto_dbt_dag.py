@@ -1,6 +1,7 @@
 from airflow import DAG
 from airflow.operators.bash import BashOperator
 from airflow.sensors.external_task import ExternalTaskSensor
+from airflow.utils.state import DagRunState 
 from datetime import datetime, timedelta
 
 DBT_PROJECT_DIR = "/opt/airflow/dbt/auto_project"
@@ -30,8 +31,8 @@ with DAG(
         task_id='wait_for_ingestion',
         external_dag_id='raw_auto_dummy_api_dag',
         external_task_id=None,          # None = wait for entire DAG
-        allowed_states=['success'],
-        failed_states=['failed', 'upstream_failed'],
+        allowed_states=[DagRunState.SUCCESS],
+        failed_states=[DagRunState.FAILED],
         execution_delta=timedelta(hours=1),  # ingestion runs 1 hour earlier
         timeout=3600,                   # wait max 1 hour
         poke_interval=60,               # check every 60 seconds
