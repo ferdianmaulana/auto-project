@@ -1,5 +1,5 @@
 requests==2.31.0
-pandas==2.1.4
+pandas==1.5.3
 dbt-core==1.7.4
 dbt-bigquery==1.7.4
 great-expectations==0.18.8
