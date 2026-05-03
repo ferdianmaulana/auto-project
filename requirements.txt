@@ -2,7 +2,7 @@ requests==2.31.0
 pandas==2.1.4
 dbt-core==1.7.4
 dbt-bigquery==1.7.4
-astronomer-cosmos==1.7.0
+astronomer-cosmos==1.4.3
 great-expectations==0.18.8
 google-cloud-bigquery==3.17.1
 google-cloud-storage==2.14.0

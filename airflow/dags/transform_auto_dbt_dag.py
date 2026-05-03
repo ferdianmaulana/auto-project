@@ -7,7 +7,7 @@ from airflow.sensors.external_task import ExternalTaskSensor
 from airflow.utils.state import DagRunState
 
 from cosmos import DbtTaskGroup, ProjectConfig, ProfileConfig, ExecutionConfig, RenderConfig
-from cosmos.constants import ExecutionMode
+from cosmos.constants import ExecutionMode, LoadMode
 
 DBT_PROJECT_DIR = Path("/opt/airflow/dbt/auto_project")
 
@@ -21,6 +21,7 @@ default_args = {
 
 project_config = ProjectConfig(
     dbt_project_path=DBT_PROJECT_DIR,
+    manifest_path=DBT_PROJECT_DIR / "target" / "manifest.json",
 )
 
 profile_config = ProfileConfig(
@@ -69,7 +70,10 @@ with DAG(
         project_config=project_config,
         profile_config=profile_config,
         execution_config=execution_config,
-        render_config=RenderConfig(select=['path:models/staging']),
+        render_config=RenderConfig(
+            load_method=LoadMode.DBT_MANIFEST,
+            select=['path:models/staging'],
+        ),
     )
 
     # ── Consumption layer: one task per model (run + test) ────
@@ -78,7 +82,10 @@ with DAG(
         project_config=project_config,
         profile_config=profile_config,
         execution_config=execution_config,
-        render_config=RenderConfig(select=['path:models/consumption']),
+        render_config=RenderConfig(
+            load_method=LoadMode.DBT_MANIFEST,
+            select=['path:models/consumption'],
+        ),
     )
 
     # ── Generate docs (non-blocking, runs last) ───────────────
