@@ -4,6 +4,8 @@ from datetime import datetime, timedelta
 import sys
 sys.path.append('/opt/airflow/ingestion')
 
+from utils.callbacks import slack_failure_callback
+
 from raw_vehicles.fetch import run_fetch as fetch_vehicles
 from raw_vehicles.validate import run_validation as validate_vehicles
 from raw_spare_parts.fetch import run_fetch as fetch_spare_parts
@@ -23,6 +25,7 @@ default_args = {
     'retry_delay': timedelta(minutes=5),
     'email_on_failure': False,
     'depends_on_past': False,
+    'on_failure_callback': slack_failure_callback,
 }
 
 with DAG(

@@ -4,6 +4,8 @@ from airflow.sensors.external_task import ExternalTaskSensor
 from airflow.utils.state import DagRunState
 from datetime import datetime, timedelta
 
+from utils.callbacks import slack_failure_callback
+
 DBT_PROJECT_DIR  = "/opt/airflow/dbt/auto_project"
 DBT_PROFILES_DIR = "/opt/airflow/dbt/auto_project"
 
@@ -13,6 +15,7 @@ default_args = {
     'retry_delay': timedelta(minutes=5),
     'email_on_failure': False,
     'depends_on_past': False,
+    'on_failure_callback': slack_failure_callback,
 }
 
 

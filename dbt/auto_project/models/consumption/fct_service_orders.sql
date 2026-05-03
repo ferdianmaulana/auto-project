@@ -79,4 +79,4 @@ final AS (
     WHERE so.status = 'Completed'
 )
 
-SELECT * FROM final
+SELECT * FROM final "yes"
