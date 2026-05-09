@@ -4,7 +4,7 @@ sources:
   - name: raw
     database: auto-project-493707
     schema: raw
-    description: "Raw automotive aftersales data ingested daily from Mock API"
+    description: "Raw automotive aftersales data ingested daily from Dummy API"
 
     tables:
       - name: vehicles

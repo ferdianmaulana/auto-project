@@ -16,7 +16,7 @@ logger = get_logger(__name__)
 
 def fetch_vehicles() -> list:
     """
-    Fetches master vehicle data from Mock API.
+    Fetches master vehicle data from Dummy API.
     Returns full list of registered vehicles.
     """
     response = call_api_with_retry(
