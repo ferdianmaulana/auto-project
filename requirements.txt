@@ -6,3 +6,4 @@ great-expectations==0.18.8
 google-cloud-bigquery==3.17.1
 google-cloud-storage==2.14.0
 apache-airflow-providers-google==10.13.1
+apache-airflow-providers-slack==8.7.1

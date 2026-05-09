@@ -1,15 +1,16 @@
-from airflow.providers.slack.hooks.slack_webhook import SlackWebhookHook
+from airflow.providers.slack.hooks.slack import SlackHook
 
-SLACK_CONN_ID = "slack_webhook"
+SLACK_CONN_ID = "slack_bot"
+SLACK_CHANNEL = "#all-airflow-notification"  # override per-DAG if needed
 
 
-def slack_failure_callback(context: dict) -> None:
+def slack_failure_callback(context: dict, channel: str = SLACK_CHANNEL) -> None:
     """Send a Slack alert when any task fails.
 
     Setup (Airflow UI → Admin → Connections):
-      Conn Id   : slack_webhook
-      Conn Type : Slack Webhook
-      Password  : https://hooks.slack.com/services/T.../B.../...
+      Conn Id   : slack_bot
+      Conn Type : Slack
+      Password  : xoxb-your-bot-user-oauth-token
     """
     ti = context["task_instance"]
     dag_id = ti.dag_id
@@ -48,7 +49,11 @@ def slack_failure_callback(context: dict) -> None:
         },
     ]
 
-    SlackWebhookHook(slack_webhook_conn_id=SLACK_CONN_ID).send(
-        blocks=blocks,
-        text=f":red_circle: `{task_id}` in `{dag_id}` failed on {execution_date}",
+    SlackHook(slack_conn_id=SLACK_CONN_ID).call(
+        "chat.postMessage",
+        json={
+            "channel": channel,
+            "text": f":red_circle: `{task_id}` in `{dag_id}` failed on {execution_date}",
+            "blocks": blocks,
+        },
     )
